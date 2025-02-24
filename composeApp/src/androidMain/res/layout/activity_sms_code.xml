@@ -2,23 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="20dp">
 
-    <EditText
-        android:id="@+id/smsCodeEditText"
+    <com.vicmikhailau.maskededittext.MaskedEditText
+        android:id="@+id/smsEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Введите код из SMS"
-        android:inputType="number"
-        android:maxLength="6"
-        android:textAlignment="center"
-        android:layout_marginBottom="16dp"/>
+        android:hint="Введите 6-значный код"
+        app:mask="###-###"
+        android:inputType="phone"
+        android:padding="12dp"
+        android:textSize="18sp"
+        android:maxLength="18"
+        android:layout_marginBottom="12dp"/>
 
     <Button
         android:id="@+id/continueButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Продолжить"/>
+        android:text="Продолжить"
+        android:paddingVertical="12dp"
+        android:textSize="16sp"
+        android:backgroundTint="@color/darkGray"
+        android:textColor="@color/white"/>
 </LinearLayout>

@@ -4,15 +4,37 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="20dp">
+    android:padding="24dp"
+    android:background="@color/white">
+
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="У вас отсутствет подключение к интернету :("
-        android:textSize="32dp"
+        android:layout_height="wrap_content"
+        android:text="Нет подключения к интернету"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         android:textAlignment="center"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="8dp"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Пожалуйста, проверьте соединение и попробуйте снова."
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:layout_marginBottom="24dp"/>
 
+    <Button
+        android:id="@+id/retryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Повторить попытку"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="12dp"
+        android:textSize="16sp"
+        android:backgroundTint="@color/darkGray"
+        android:textColor="@color/white"/>
 </LinearLayout>
