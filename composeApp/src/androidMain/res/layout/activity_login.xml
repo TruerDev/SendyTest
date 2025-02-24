@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <com.vicmikhailau.maskededittext.MaskedEditText
+        android:id="@+id/phoneEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="+7"
+        app:mask="+7 (###) ###-##-##"
+        android:inputType="phone"
+        android:padding="10dp"
+        android:textSize="18sp"
+        android:maxLength="18" />
+
+    <CheckBox
+        android:id="@+id/agreementCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Я согласен с офертой"
+        android:paddingTop="16dp" />
+
+    <Button
+        android:id="@+id/continueButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Продолжить" />
+</LinearLayout>
