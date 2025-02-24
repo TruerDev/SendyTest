@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Введите 6-значный код"
-        app:mask="###-###"
+        app:mask="######"
         android:inputType="phone"
         android:padding="12dp"
         android:textSize="18sp"
