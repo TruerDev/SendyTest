@@ -2,6 +2,7 @@ package org.example.project
 
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -13,7 +14,6 @@ import land.sendy.pfe_sdk.model.types.ApiCallback
 import com.vicmikhailau.maskededittext.MaskedEditText
 import land.sendy.pfe_sdk.model.pfe.response.AuthLoginRs
 
-
 class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,8 +24,6 @@ class LoginActivity : AppCompatActivity() {
         val agreementCheckBox = findViewById<CheckBox>(R.id.agreementCheckBox)
         val continueButton = findViewById<Button>(R.id.continueButton)
 
-
-
         continueButton.setOnClickListener {
             val phone = "7" + phoneInput.unMaskedText.toString()
             Log.d(TAG, "проверка")
@@ -35,7 +33,12 @@ class LoginActivity : AppCompatActivity() {
 
             if (validatePhoneNumber(phone)) {
                 if (isAgreementChecked) {
-                    sendRegistrationRequest(phone)
+                    if (isInternetAvailable()) {
+                        sendRegistrationRequest(phone)
+                    } else {
+                        val intent = Intent(this, NoInternetActivity::class.java)
+                        startActivity(intent)
+                    }
                 } else {
                     Toast.makeText(this, "Вы должны согласиться с офертой", Toast.LENGTH_SHORT).show()
                 }
@@ -65,7 +68,6 @@ class LoginActivity : AppCompatActivity() {
                         intent.putExtra("phone", phone)
                         startActivity(intent)
                     } else {
-                        // Обычная аутентификация (код из SMS)
                         val intent = Intent(this@LoginActivity, SmsCodeActivity::class.java)
                         intent.putExtra("phone", phone)
                         startActivity(intent)
@@ -77,5 +79,11 @@ class LoginActivity : AppCompatActivity() {
         if (runResult != null && runResult.hasError()) {
             API.outLog("runResult запрос не был запущен:\r\n" + runResult.toString())
         }
+    }
+
+    private fun isInternetAvailable(): Boolean {
+        val connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = connectivityManager.activeNetworkInfo
+        return activeNetwork != null && activeNetwork.isConnected
     }
 }

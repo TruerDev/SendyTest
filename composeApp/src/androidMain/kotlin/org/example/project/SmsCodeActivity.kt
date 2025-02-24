@@ -1,5 +1,7 @@
 package org.example.project
 
+import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -27,7 +29,12 @@ class SmsCodeActivity : AppCompatActivity() {
         continueButton.setOnClickListener {
             val smsCode = smsCodeInput.text.toString()
             if (validateSmsCode(smsCode)) {
-                sendSmsCode(smsCode)
+                if (isInternetAvailable()) {
+                    sendSmsCode(smsCode)
+                } else {
+                    val intent = Intent(this, NoInternetActivity::class.java)
+                    startActivity(intent)
+                }
             } else {
                 Toast.makeText(this, "Введите 6-значный код", Toast.LENGTH_SHORT).show()
             }
@@ -59,5 +66,11 @@ class SmsCodeActivity : AppCompatActivity() {
         if (runResult != null && runResult.hasError()) {
             API.outLog("runResult запрос не был запущен:\r\n" + runResult.toString())
         }
+    }
+
+    private fun isInternetAvailable(): Boolean {
+        val connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = connectivityManager.activeNetworkInfo
+        return activeNetwork != null && activeNetwork.isConnected
     }
 }
