@@ -15,21 +15,37 @@ import land.sendy.pfe_sdk.model.types.ApiCallback
 class SmsCodeActivity : AppCompatActivity() {
 
     private lateinit var phone: String
+    private lateinit var confirmButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sms_code)
 
         phone = intent.getStringExtra("phone") ?: ""
+        confirmButton = findViewById(R.id.confirmButton)
 
-        findViewById<Button>(R.id.continueButton).setOnClickListener {
+        confirmButton.setOnClickListener {
             val smsCode = findViewById<MaskedEditText>(R.id.smsEditText).text.toString()
             when {
-                !validateSmsCode(smsCode) -> showToast("Введите 6-значный код")
-                !isInternetAvailable() -> startActivity(Intent(this, NoInternetActivity::class.java))
-                else -> sendSmsCode(smsCode)
+                !validateSmsCode(smsCode) -> {
+                    showToast("Введите 6-значный код")
+                    confirmButton.isEnabled = true
+                }
+                !isInternetAvailable() -> {
+                    startActivity(Intent(this, NoInternetActivity::class.java))
+                    confirmButton.isEnabled = true
+                }
+                else -> {
+                    confirmButton.isEnabled = false
+                    sendSmsCode(smsCode)
+                }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        confirmButton.isEnabled = true
     }
 
     private fun validateSmsCode(code: String) = code.matches(Regex("^\\d{6}$"))
@@ -40,15 +56,17 @@ class SmsCodeActivity : AppCompatActivity() {
                 if (!res || getErrNo() != 0) {
                     API.outLog("Ошибка валидации SMS: ${this.toString()}")
                     showToast("Неверный код")
+                    confirmButton.isEnabled = true
                 } else {
                     API.outLog("Код подтверждён, вход выполнен!")
                     showToast("Вход выполнен успешно!")
-                    //startActivity(Intent(this@SmsCodeActivity, <СледующееАктивити>::class.java))
-                    //finish()
+                    // startActivity(Intent(this@SmsCodeActivity, <СледующееАктивити>::class.java))
+                    // finish()
                 }
             }
         })?.takeIf { it.hasError() }?.let {
             API.outLog("runResult запрос не был запущен:\r\n$it")
+            confirmButton.isEnabled = true
         }
     }
 

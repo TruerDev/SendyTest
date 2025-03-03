@@ -5,16 +5,18 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.vicmikhailau.maskededittext.MaskedEditText
 import land.sendy.pfe_sdk.api.API
-import land.sendy.pfe_sdk.model.pfe.response.AuthLoginRs
 import land.sendy.pfe_sdk.model.types.ApiCallback
 
 class LoginActivity : AppCompatActivity() {
+
+    private lateinit var continueButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +24,7 @@ class LoginActivity : AppCompatActivity() {
 
         val phoneInput = findViewById<MaskedEditText>(R.id.phoneEditText)
         val agreementCheckBox = findViewById<CheckBox>(R.id.agreementCheckBox)
-        val continueButton = findViewById<Button>(R.id.continueButton)
+        continueButton = findViewById(R.id.continueButton)
 
         continueButton.setOnClickListener {
             val phone = "7" + phoneInput.unMaskedText.toString()
@@ -32,9 +34,17 @@ class LoginActivity : AppCompatActivity() {
                 !validatePhoneNumber(phone) -> showToast("Неверный номер телефона")
                 !agreementCheckBox.isChecked -> showToast("Вы должны согласиться с офертой")
                 !isInternetAvailable() -> startActivity(Intent(this, NoInternetActivity::class.java))
-                else -> sendRegistrationRequest(phone)
+                else -> {
+                    continueButton.isEnabled = false
+                    sendRegistrationRequest(phone)
+                }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        continueButton.isEnabled = true
     }
 
     private fun validatePhoneNumber(phone: String) = phone.matches(Regex("^7\\d{10}$"))
@@ -45,6 +55,7 @@ class LoginActivity : AppCompatActivity() {
                 if (!res || getErrNo() != 0) {
                     API.outLog("Ошибка регистрации: ${this.toString()}")
                     showToast("Ошибка при регистрации")
+                    continueButton.isEnabled = true
                 } else {
                     startActivity(Intent(this@LoginActivity, SmsCodeActivity::class.java).apply {
                         putExtra("phone", phone)
@@ -53,6 +64,7 @@ class LoginActivity : AppCompatActivity() {
             }
         })?.takeIf { it.hasError() }?.let {
             API.outLog("runResult запрос не был запущен:\r\n$it")
+            continueButton.isEnabled = true
         }
     }
 

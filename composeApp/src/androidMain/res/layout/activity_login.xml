@@ -37,7 +37,8 @@
         android:text="Я соглашаюсь с условиями оферты"
         android:textSize="14sp"
         android:textColor="@color/darkGray"
-        android:layout_marginBottom="24dp"/>
+        android:layout_marginBottom="24dp"
+        android:checked="false"/>
 
     <Button
         android:id="@+id/continueButton"
@@ -47,5 +48,6 @@
         android:paddingVertical="12dp"
         android:textSize="16sp"
         android:backgroundTint="@color/darkGray"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:clickable="true"/>
 </LinearLayout>

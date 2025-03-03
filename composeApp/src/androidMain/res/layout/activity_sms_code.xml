@@ -20,12 +20,13 @@
         android:layout_marginBottom="12dp"/>
 
     <Button
-        android:id="@+id/continueButton"
+        android:id="@+id/confirmButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Продолжить"
         android:paddingVertical="12dp"
         android:textSize="16sp"
         android:backgroundTint="@color/darkGray"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:clickable="true"/>
 </LinearLayout>
