@@ -29,4 +29,11 @@
         android:backgroundTint="@color/darkGray"
         android:textColor="@color/white"
         android:clickable="true"/>
+
+    <ProgressBar
+        android:id="@+id/loadingIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 </LinearLayout>

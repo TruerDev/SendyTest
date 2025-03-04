@@ -6,6 +6,7 @@ import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
@@ -17,6 +18,18 @@ class NoInternetActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_no_internet)
+
+        val retryButton: Button = findViewById(R.id.retryButton)
+
+        retryButton.setOnClickListener {
+            if (isInternetAvailable()) {
+                showToast("Интернет восстановлен!")
+                startActivity(Intent(this, InitActivity::class.java))
+                finish()
+            } else {
+                showToast("Попытка не удалась. Проверьте подключение.")
+            }
+        }
 
         checkInternetConnection()
     }

@@ -82,4 +82,5 @@ dependencies {
     implementation("io.github.vicmikhailau:MaskedEditText:5.0.3")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("com.neovisionaries:nv-websocket-client:2.14")
+    implementation(libs.androidx.material)
 }
