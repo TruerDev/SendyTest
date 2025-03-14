@@ -6,11 +6,11 @@ import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
-import com.vicmikhailau.maskededittext.MaskedEditText
 import land.sendy.pfe_sdk.api.API
 import land.sendy.pfe_sdk.model.types.ApiCallback
 
@@ -18,7 +18,7 @@ class SmsCodeActivity : AppCompatActivity() {
 
     private lateinit var phone: String
     private lateinit var confirmButton: Button
-    private lateinit var smsInput: MaskedEditText
+    private lateinit var smsInput: EditText
     private lateinit var loadingIndicator: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +60,7 @@ class SmsCodeActivity : AppCompatActivity() {
             override fun onCompleted(res: Boolean) {
                 loadingIndicator.visibility = View.GONE
                 if (!res || getErrNo() != 0) {
-                    showSnackbar("Неверный код")
+                    showToast("Неверный код")
                     confirmButton.isEnabled = true
                 } else {
                     showToast("Вход выполнен успешно!")
@@ -69,7 +69,7 @@ class SmsCodeActivity : AppCompatActivity() {
                 }
             }
         })?.takeIf { it.hasError() }?.let {
-            showSnackbar("Ошибка запроса")
+            showToast("Ошибка запроса")
             confirmButton.isEnabled = true
             loadingIndicator.visibility = View.GONE
         }

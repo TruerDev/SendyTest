@@ -79,7 +79,6 @@ dependencies {
     implementation(files("libs/sendy_app_sdk.aar"))
     implementation(libs.androidx.constraintlayout)
     implementation("com.googlecode.libphonenumber:libphonenumber:8.12.42")
-    implementation("io.github.vicmikhailau:MaskedEditText:5.0.3")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("com.neovisionaries:nv-websocket-client:2.14")
     implementation(libs.androidx.material)
